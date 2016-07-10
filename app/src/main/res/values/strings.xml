@@ -5,4 +5,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- Strings for Navigation Drawer -->
+    <string name="home">Home</string>
+    <string name="correlations">Correlation</string>
+    <string name="s_ratio">Sharpe Ratio</string>
+    <string name="tan_port">Tangency Portfolio</string>
+    <string name="min_var_port">Minimum Variance Portfolio</string>
 </resources>

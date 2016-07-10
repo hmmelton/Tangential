@@ -1,5 +1,6 @@
 package com.hmmelton.tangential;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -7,8 +8,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.io.IOException;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.HistoricalQuote;
+import yahoofinance.histquotes.Interval;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -16,26 +28,33 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("unused")
     private final String TAG = getClass().getSimpleName();
 
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Change text color of toolbar from main text color
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ButterKnife.bind(this);
+
+        checkStockPrice("^DJI");
+
+        // Set up Navigation Drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -71,22 +90,44 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_home:
+                break;
+            case R.id.nav_correlation:
+                break;
+            case R.id.nav_s_ratio:
+                break;
+            case R.id.nav_tangency:
+                break;
+            case R.id.nav_min_var:
+                break;
+            default:
+                break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * This is a test method.  Remove this for production.
+     * @param stock
+     */
+    private void checkStockPrice(String stock) {
+        new AsyncTask<String, Void, Void>() {
+            @Override
+            protected Void doInBackground(String... strings) {
+                try {
+                    Stock index = YahooFinance.get(strings[0]);
+                    List<HistoricalQuote> quotes = index.getHistory(Interval.DAILY);
+                    for (int i = 0; i < 10; i++)
+                        Log.e(TAG, quotes.get(i).getAdjClose().toString());
+                } catch (IOException e) {
+                    Log.e(TAG, "failed to retrieve stock");
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(stock);
     }
 }
