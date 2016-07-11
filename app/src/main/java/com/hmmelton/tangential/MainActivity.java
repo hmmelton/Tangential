@@ -3,6 +3,7 @@ package com.hmmelton.tangential;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,16 +12,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
-import java.io.IOException;
+import com.hmmelton.tangential.fragments.HomeFragment;
+import com.hmmelton.tangential.models.StyledQuote;
+import com.hmmelton.tangential.utils.QuoteHelper;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
-import yahoofinance.histquotes.HistoricalQuote;
-import yahoofinance.histquotes.Interval;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,8 +31,12 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("unused")
     private final String TAG = getClass().getSimpleName();
 
+
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
+
+    // List of display fields for index values
+    private List<TextView> indexes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,17 @@ public class MainActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        checkStockPrice("^DJI");
+        // Get header view in order to
+        View headerLayout = navigationView.getHeaderView(0);
+        // Add index display fields to list
+        indexes.add((TextView) headerLayout.findViewById(R.id.index_1));
+        indexes.add((TextView) headerLayout.findViewById(R.id.index_2));
+        indexes.add((TextView) headerLayout.findViewById(R.id.index_3));
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_holder, HomeFragment.newInstance())
+                .commit();
 
         // Set up Navigation Drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -51,6 +68,8 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        setIndexPrices();
     }
 
     @Override
@@ -87,11 +106,15 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         switch (id) {
             case R.id.nav_home:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment_holder, HomeFragment.newInstance())
+                        .commit();
                 break;
             case R.id.nav_correlation:
                 break;
@@ -110,24 +133,31 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * This is a test method.  Remove this for production.
-     * @param stock
+     * This method finds and displays the current prices of the given indexes.
      */
-    private void checkStockPrice(String stock) {
-        new AsyncTask<String, Void, Void>() {
-            @Override
-            protected Void doInBackground(String... strings) {
-                try {
-                    Stock index = YahooFinance.get(strings[0]);
-                    List<HistoricalQuote> quotes = index.getHistory(Interval.DAILY);
-                    for (int i = 0; i < 10; i++)
-                        Log.e(TAG, quotes.get(i).getAdjClose().toString());
-                } catch (IOException e) {
-                    Log.e(TAG, "failed to retrieve stock");
-                    e.printStackTrace();
+    private void setIndexPrices() {
+        // Ticker symbols for the indexes
+        final String[] indexTickers = { "^DJI", "^IXIC", "^GSPC" };
+
+        for (int i = 0; i < indexes.size(); i++) {
+            Log.e(TAG, i + " " + indexes.get(i));
+            final int j = i;
+            new AsyncTask<String, Void, StyledQuote>() {
+                @Override
+                protected StyledQuote doInBackground(String... strings) {
+                    return QuoteHelper.getChangeStyledQuote(strings[0], 1);
                 }
-                return null;
-            }
-        }.execute(stock);
+
+                @Override
+                protected void onPostExecute(StyledQuote quote) {
+                    super.onPostExecute(quote);
+                    if (quote != null) {
+                        indexes.get(j).setText(quote.getValue() + "");
+                        indexes.get(j).setTextColor(getResources().getColor(quote.getColor()));
+                    } else
+                        indexes.get(j).setText(getString(R.string.error));
+                }
+            }.execute(indexTickers[i]);
+        }
     }
 }

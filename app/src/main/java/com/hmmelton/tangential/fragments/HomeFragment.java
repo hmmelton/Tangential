@@ -1,6 +1,5 @@
 package com.hmmelton.tangential.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,8 +12,19 @@ import butterknife.ButterKnife;
 
 /**
  * Created by harrisonmelton on 7/10/16.
+ * This class is a fragment for the home screen.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends android.support.v4.app.Fragment {
+
+
+    /**
+     * Default constructor
+     */
+    public HomeFragment(){}
+
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
+    }
 
     @Nullable
     @Override
