@@ -84,8 +84,7 @@ public class QuoteHelper {
         double[] quotesArray1 = listToDoubleArray(quotes1);
         double[] quotesArray2 = listToDoubleArray(quotes2);
 
-        PearsonsCorrelation correlator = new PearsonsCorrelation();
-        return correlator.correlation(quotesArray1, quotesArray2);
+        return new PearsonsCorrelation().correlation(quotesArray1, quotesArray2);
     }
 
     /**
