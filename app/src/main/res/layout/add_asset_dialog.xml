@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        style="@style/CenterRowTextView"
+        android:padding="@dimen/standard_margin"
+        android:background="?attr/colorPrimary"
+        android:text="@string/add_asset"
+        android:textColor="@android:color/white"
+        android:textSize="10pt"/>
+
+    <EditText
+        android:id="@+id/asset_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
+        android:padding="@dimen/standard_margin"
+        android:hint="@string/ticker_hint"
+        android:inputType="textCapCharacters"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/add_asset_button"
+        style="@style/LargeButtonStyle"
+        android:text="@string/add"
+        android:textSize="10pt"/>
+
+</LinearLayout>

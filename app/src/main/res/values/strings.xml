@@ -31,6 +31,12 @@
     <string name="calculate">CALCULATE</string>
     <string name="correlation_colon">Correlation:</string>
 
+    <!-- Strings for SharpeRatioFragment -->
+    <string name="add_asset">ADD ASSET</string>
+    <string name="ticker_hint">Type ticker here</string>
+    <string name="add">ADD</string>
+    <string name="invalid_ticker">Unable to find quote for that asset</string>
+
     <string-array name="us_indexes">
         <item>^DJI</item>
         <item>^IXIC</item>

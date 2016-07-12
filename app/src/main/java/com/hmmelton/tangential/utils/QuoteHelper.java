@@ -75,8 +75,7 @@ public class QuoteHelper {
         List<HistoricalQuote> quotes1 = getQuotes(quote1, Calendar.YEAR, numYears);
         List<HistoricalQuote> quotes2 = getQuotes(quote2, Calendar.YEAR, numYears);
 
-        Log.e(TAG, (quotes1 == null) + "");
-        Log.e(TAG, (quotes2 == null) + "");
+        // Check if there was an error retrieving historical quotes
         if (quotes1 == null || quotes2 == null)
             return -2;
 
@@ -95,7 +94,7 @@ public class QuoteHelper {
      * @param periodLength -1 for 1 period in the past (YEAR, -1 would be 1 year in the past), etc.
      * @return
      */
-    private static List<HistoricalQuote> getQuotes(String quote, int period, int periodLength) {
+    public static List<HistoricalQuote> getQuotes(String quote, int period, int periodLength) {
         try {
             Calendar from = Calendar.getInstance(); // start date
             Calendar to = Calendar.getInstance(); // end date today

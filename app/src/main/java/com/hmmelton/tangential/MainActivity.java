@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.hmmelton.tangential.fragments.CorrelationFragment;
 import com.hmmelton.tangential.fragments.HomeFragment;
+import com.hmmelton.tangential.fragments.SharpeRatioFragment;
 import com.hmmelton.tangential.models.StyledQuote;
 import com.hmmelton.tangential.utils.QuoteHelper;
 
@@ -124,6 +125,10 @@ public class MainActivity extends AppCompatActivity
                 getSupportActionBar().setTitle(getString(R.string.correlation));
                 break;
             case R.id.nav_s_ratio:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment_holder, SharpeRatioFragment.newInstance())
+                        .commit();
+                getSupportActionBar().setTitle(getString(R.string.s_ratio));
                 break;
             case R.id.nav_tangency:
                 break;
