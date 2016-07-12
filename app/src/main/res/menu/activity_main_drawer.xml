@@ -7,7 +7,7 @@
             android:title="@string/home"/>
         <item
             android:id="@+id/nav_correlation"
-            android:title="@string/correlations"/>
+            android:title="@string/correlation"/>
         <item
             android:id="@+id/nav_s_ratio"
             android:title="@string/s_ratio"/>

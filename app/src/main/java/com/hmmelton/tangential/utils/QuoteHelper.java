@@ -1,5 +1,7 @@
 package com.hmmelton.tangential.utils;
 
+import android.util.Log;
+
 import com.hmmelton.tangential.R;
 import com.hmmelton.tangential.models.StyledQuote;
 
@@ -19,6 +21,8 @@ import yahoofinance.histquotes.Interval;
  * This is a helper class for interacting with Yahoo Finance's API.
  */
 public class QuoteHelper {
+
+    private static final String TAG = "QuoteHelper";
 
     /**
      * This method returns the most recent asset quote.
@@ -71,6 +75,8 @@ public class QuoteHelper {
         List<HistoricalQuote> quotes1 = getQuotes(quote1, Calendar.YEAR, numYears);
         List<HistoricalQuote> quotes2 = getQuotes(quote2, Calendar.YEAR, numYears);
 
+        Log.e(TAG, (quotes1 == null) + "");
+        Log.e(TAG, (quotes2 == null) + "");
         if (quotes1 == null || quotes2 == null)
             return -2;
 
@@ -98,6 +104,7 @@ public class QuoteHelper {
             from.add(period, periodLength); // set start date to 1 year ago
             return YahooFinance.get(quote).getHistory(from, to, Interval.DAILY);
         } catch (Exception e) {
+            Log.e(TAG, "error!!! " + e.toString());
             e.printStackTrace();
             return null;
         }

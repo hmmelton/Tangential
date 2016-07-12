@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="@dimen/standard_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <View style="@style/OneWeight"
+            android:layout_height="0dp"/>
+
+        <LinearLayout
+            style="@style/OneWeight"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/CenterRowTextView"
+                android:text="@string/asset_1"/>
+
+            <EditText
+                android:id="@+id/asset_1"
+                style="@style/GrayBgEtStyle"/>
+
+        </LinearLayout>
+
+        <View style="@style/OneWeight"
+            android:layout_height="0dp"/>
+
+        <LinearLayout
+            style="@style/OneWeight"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/CenterRowTextView"
+                android:text="@string/asset_2"/>
+
+            <EditText
+                android:id="@+id/asset_2"
+                style="@style/GrayBgEtStyle"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:text="@string/corr_time_period"
+        android:textAlignment="center"/>
+
+    <RadioGroup
+        android:id="@+id/year_button_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/button_1y"
+        android:padding="@dimen/standard_margin"
+        android:orientation="horizontal">
+        
+        <RadioButton
+            android:id="@+id/button_1y"
+            style="@style/OneWeight"
+            android:text="@string/one_year"/>
+
+        <RadioButton
+            android:id="@+id/button_3y"
+            style="@style/OneWeight"
+            android:text="@string/three_years"/>
+
+        <RadioButton
+            android:id="@+id/button_5y"
+            style="@style/OneWeight"
+            android:text="@string/five_years"/>
+
+        <RadioButton
+            android:id="@+id/button_10y"
+            style="@style/OneWeight"
+            android:text="@string/ten_years"/>
+
+        <RadioButton
+            android:id="@+id/button_20y"
+            style="@style/OneWeight"
+            android:text="@string/twenty_years"/>
+        
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/corr_calculation"
+        style="@style/LargeButtonStyle"
+        android:text="@string/calculate"/>
+
+    <LinearLayout
+        android:id="@+id/corr_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/correlation_colon"/>
+
+        <TextView
+            android:id="@+id/corr_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+    
+</LinearLayout>

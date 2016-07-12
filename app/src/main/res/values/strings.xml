@@ -8,20 +8,33 @@
 
     <!-- Strings for Navigation Drawer -->
     <string name="home">Home</string>
-    <string name="correlations">Correlation</string>
+    <string name="correlation">Correlation</string>
     <string name="s_ratio">Sharpe Ratio</string>
     <string name="tan_port">Tangency Portfolio</string>
     <string name="min_var_port">Minimum Variance Portfolio</string>
 
-    <!-- Strings for home fragment -->
+    <!-- Strings for MainActivity -->
     <string name="dow_jones">Dow Jones</string>
     <string name="nasdaq">Nasdaq</string>
     <string name="sp_500">S&amp;P 500</string>
     <string name="error">error</string>
+
+    <!-- Strings for CorrelationFragment -->
+    <string name="asset_1">Asset 1</string>
+    <string name="asset_2">Asset 2</string>
+    <string name="one_year">1Y</string>
+    <string name="three_years">3Y</string>
+    <string name="five_years">5Y</string>
+    <string name="ten_years">10Y</string>
+    <string name="twenty_years">20Y</string>
+    <string name="corr_time_period">Select Correlation Time Period</string>
+    <string name="calculate">CALCULATE</string>
+    <string name="correlation_colon">Correlation:</string>
 
     <string-array name="us_indexes">
         <item>^DJI</item>
         <item>^IXIC</item>
         <item>^GSPC</item>
     </string-array>
+    <string name="risk_free">^IRX</string>
 </resources>

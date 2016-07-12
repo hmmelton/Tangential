@@ -33,4 +33,23 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <!-- Style for large buttons -->
+    <style name="LargeButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/standard_margin</item>
+        <item name="android:background">?attr/colorAccent</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!-- Style for EditTexts with gray backgrounds -->
+    <style name="GrayBgEtStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/quarter_standard_margin</item>
+        <item name="android:paddingLeft">@dimen/quarter_standard_margin</item>
+        <item name="android:background">@drawable/color_primary_et_bg</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

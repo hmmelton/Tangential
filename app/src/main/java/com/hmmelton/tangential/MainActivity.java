@@ -9,12 +9,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hmmelton.tangential.fragments.CorrelationFragment;
 import com.hmmelton.tangential.fragments.HomeFragment;
 import com.hmmelton.tangential.models.StyledQuote;
 import com.hmmelton.tangential.utils.QuoteHelper;
@@ -115,8 +115,13 @@ public class MainActivity extends AppCompatActivity
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment_holder, HomeFragment.newInstance())
                         .commit();
+                getSupportActionBar().setTitle(getString(R.string.app_name));
                 break;
             case R.id.nav_correlation:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment_holder, CorrelationFragment.newInstance())
+                        .commit();
+                getSupportActionBar().setTitle(getString(R.string.correlation));
                 break;
             case R.id.nav_s_ratio:
                 break;
@@ -140,7 +145,6 @@ public class MainActivity extends AppCompatActivity
         final String[] indexTickers = { "^DJI", "^IXIC", "^GSPC" };
 
         for (int i = 0; i < indexes.size(); i++) {
-            Log.e(TAG, i + " " + indexes.get(i));
             final int j = i;
             new AsyncTask<String, Void, StyledQuote>() {
                 @Override
