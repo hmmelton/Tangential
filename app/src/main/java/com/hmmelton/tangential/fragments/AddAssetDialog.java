@@ -13,11 +13,18 @@ import android.widget.Toast;
 import com.hmmelton.tangential.R;
 import com.hmmelton.tangential.utils.QuoteHelper;
 
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by harrisonmelton on 7/11/16.
  * This is a DialogFragment that allows the user to add a new stock quote to the
  */
 public class AddAssetDialog extends DialogFragment {
+
+    @BindView(R.id.asset_input) EditText mInput;
+    @BindString(R.string.invalid_ticker) String invalidTicker;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -25,13 +32,14 @@ public class AddAssetDialog extends DialogFragment {
                 .getLayoutInflater()
                 .inflate(R.layout.add_asset_dialog, null, false);
 
+        ButterKnife.bind(this, dialog);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        final EditText input = (EditText) dialog.findViewById(R.id.asset_input);
-        input.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        mInput.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
         dialog.findViewById(R.id.add_asset_button).setOnClickListener(view ->
-            checkIsValidTicker(input.getText().toString().trim()));
+            checkIsValidTicker(mInput.getText().toString().trim()));
 
         builder.setView(dialog);
         return builder.create();
@@ -51,7 +59,7 @@ public class AddAssetDialog extends DialogFragment {
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 if (aBoolean)
-                    Toast.makeText(getActivity(), getString(R.string.invalid_ticker), Toast.LENGTH_LONG)
+                    Toast.makeText(getActivity(), invalidTicker, Toast.LENGTH_LONG)
                             .show();
                 else
                     AddAssetDialog.this.getDialog().dismiss();

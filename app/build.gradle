@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
+def AAVersion = '4.0.0'
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
@@ -30,8 +32,15 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
-    compile 'com.jakewharton:butterknife:8.1.0'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'com.yahoofinance-api:YahooFinanceAPI:3.3.0'
     compile 'org.apache.commons:commons-math3:3.6.1'
+    apt "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+    compile 'com.firebase:firebase-client-android:2.5.2+'
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
+    }
 }

@@ -1,7 +1,5 @@
 package com.hmmelton.tangential;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -14,53 +12,51 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hmmelton.tangential.fragments.CorrelationFragment;
-import com.hmmelton.tangential.fragments.HomeFragment;
-import com.hmmelton.tangential.fragments.SharpeRatioFragment;
+import com.hmmelton.tangential.fragments.CorrelationFragment_;
+import com.hmmelton.tangential.fragments.HomeFragment_;
+import com.hmmelton.tangential.fragments.SharpeRatioFragment_;
 import com.hmmelton.tangential.models.StyledQuote;
 import com.hmmelton.tangential.utils.QuoteHelper;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.ColorRes;
+import org.androidannotations.annotations.res.StringRes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
+@EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    // String resources
+    @StringRes String appName;
+    @StringRes String correlation;
+    @StringRes (R.string.s_ratio) String sharpeRatio;
+    @StringRes String error;
+
+    @ColorRes int white;
+
+    // List of display fields for index values
+    private List<TextView> indexes = new ArrayList<>();
 
     @SuppressWarnings("unused")
     private final String TAG = getClass().getSimpleName();
 
 
-    @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.nav_view) NavigationView navigationView;
+    @ViewById(R.id.drawer_layout) DrawerLayout drawer;
+    @ViewById(R.id.nav_view) NavigationView navigationView;
 
-    // List of display fields for index values
-    private List<TextView> indexes = new ArrayList<>();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    @AfterViews
+    void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Change text color of toolbar from main text color
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        toolbar.setTitleTextColor(white);
         setSupportActionBar(toolbar);
-
-        ButterKnife.bind(this);
-
-        // Get header view in order to
-        View headerLayout = navigationView.getHeaderView(0);
-        // Add index display fields to list
-        indexes.add((TextView) headerLayout.findViewById(R.id.index_1));
-        indexes.add((TextView) headerLayout.findViewById(R.id.index_2));
-        indexes.add((TextView) headerLayout.findViewById(R.id.index_3));
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_fragment_holder, HomeFragment.newInstance())
-                .commit();
 
         // Set up Navigation Drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -71,6 +67,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         setIndexPrices();
+    }
+
+    @AfterViews
+    void setUpFragmentManager() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_holder, HomeFragment_.newInstance())
+                .commit();
     }
 
     @Override
@@ -114,21 +118,21 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_home:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_holder, HomeFragment.newInstance())
+                        .replace(R.id.main_fragment_holder, HomeFragment_.newInstance())
                         .commit();
-                getSupportActionBar().setTitle(getString(R.string.app_name));
+                getSupportActionBar().setTitle(appName);
                 break;
             case R.id.nav_correlation:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_holder, CorrelationFragment.newInstance())
+                        .replace(R.id.main_fragment_holder, CorrelationFragment_.newInstance())
                         .commit();
-                getSupportActionBar().setTitle(getString(R.string.correlation));
+                getSupportActionBar().setTitle(correlation);
                 break;
             case R.id.nav_s_ratio:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_holder, SharpeRatioFragment.newInstance())
+                        .replace(R.id.main_fragment_holder, SharpeRatioFragment_.newInstance())
                         .commit();
-                getSupportActionBar().setTitle(getString(R.string.s_ratio));
+                getSupportActionBar().setTitle(sharpeRatio);
                 break;
             case R.id.nav_tangency:
                 break;
@@ -145,28 +149,28 @@ public class MainActivity extends AppCompatActivity
     /**
      * This method finds and displays the current prices of the given indexes.
      */
-    private void setIndexPrices() {
+    @Background
+    void setIndexPrices() {
         // Ticker symbols for the indexes
         final String[] indexTickers = { "^DJI", "^IXIC", "^GSPC" };
+        // Get header view in order to
+        View headerLayout = navigationView.getHeaderView(0);
+        // Add index display fields to list
+        indexes.add((TextView) headerLayout.findViewById(R.id.index_1));
+        indexes.add((TextView) headerLayout.findViewById(R.id.index_2));
+        indexes.add((TextView) headerLayout.findViewById(R.id.index_3));
 
         for (int i = 0; i < indexes.size(); i++) {
-            final int j = i;
-            new AsyncTask<String, Void, StyledQuote>() {
-                @Override
-                protected StyledQuote doInBackground(String... strings) {
-                    return QuoteHelper.getChangeStyledQuote(strings[0], 1);
-                }
-
-                @Override
-                protected void onPostExecute(StyledQuote quote) {
-                    super.onPostExecute(quote);
-                    if (quote != null) {
-                        indexes.get(j).setText(quote.getValue() + "");
-                        indexes.get(j).setTextColor(getResources().getColor(quote.getColor()));
-                    } else
-                        indexes.get(j).setText(getString(R.string.error));
-                }
-            }.execute(indexTickers[i]);
+            displayStyledQuote(QuoteHelper.getChangeStyledQuote(indexTickers[i], 1), i);
         }
+    }
+
+    @UiThread
+    void displayStyledQuote(StyledQuote quote, int index) {
+        if (quote != null) {
+            indexes.get(index).setText(quote.getValue() + "");
+            indexes.get(index).setTextColor(getResources().getColor(quote.getColor()));
+        } else
+            indexes.get(index).setText(error);
     }
 }

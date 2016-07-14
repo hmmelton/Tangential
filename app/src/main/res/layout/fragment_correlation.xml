@@ -58,7 +58,7 @@
         android:id="@+id/year_button_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checkedButton="@+id/button_1y"
+        android:checkedButton="@+id/button_5y"
         android:padding="@dimen/standard_margin"
         android:orientation="horizontal">
         

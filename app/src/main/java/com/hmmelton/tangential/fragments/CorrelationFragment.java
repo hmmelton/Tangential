@@ -1,12 +1,7 @@
 package com.hmmelton.tangential.fragments;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -15,11 +10,33 @@ import android.widget.TextView;
 import com.hmmelton.tangential.R;
 import com.hmmelton.tangential.utils.QuoteHelper;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
+
 /**
  * Created by harrisonmelton on 7/10/16.
  * This class is a fragment for the correlation screen.
  */
+@EFragment(R.layout.fragment_correlation)
 public class CorrelationFragment extends Fragment {
+
+    // Asset ticker input fields
+    @ViewById(R.id.asset_1) EditText mAsset;
+    @ViewById(R.id.asset_2) EditText mAsset2;
+    @ViewById(R.id.corr_result) TextView mResult;
+    @ViewById(R.id.corr_section) View mResultSection;
+    @ViewById(R.id.year_button_group) RadioGroup mYearButtonGroup;
+
+    // OnClick for correlation calculate button
+    @Click(R.id.corr_calculation) void onCorrelationClick() {
+        String assetText1 = mAsset.getText().toString().trim();
+        String assetText2 = mAsset2.getText().toString().trim();
+        findCorrelation(assetText1, assetText2);
+    }
 
     private int correlationPeriod;
 
@@ -27,7 +44,7 @@ public class CorrelationFragment extends Fragment {
      * Default constructor
      */
     public CorrelationFragment() {
-        correlationPeriod = -1;
+        correlationPeriod = -5;
     }
 
     /**
@@ -35,67 +52,49 @@ public class CorrelationFragment extends Fragment {
      * @return new instance of CorrelationFragment
      */
     public static CorrelationFragment newInstance() {
-        return new CorrelationFragment();
+        return new CorrelationFragment_();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mainView = inflater.inflate(R.layout.fragment_correlation, container, false);
-        final EditText asset1 = (EditText) mainView.findViewById(R.id.asset_1);
-        final EditText asset2 = (EditText) mainView.findViewById(R.id.asset_2);
-
+    @AfterViews
+    void prepareYearButtons() {
         // OnCheckedChangeListener for correlation period RadioGroup
-        ((RadioGroup) mainView.findViewById(R.id.year_button_group))
-                .setOnCheckedChangeListener((radioGroup, checkedId) -> {
-                    switch (checkedId) {
-                        case R.id.button_1y:
-                            correlationPeriod = -1;
-                            break;
-                        case R.id.button_3y:
-                            correlationPeriod = -3;
-                            break;
-                        case R.id.button_5y:
-                            correlationPeriod = -5;
-                            break;
-                        case R.id.button_10y:
-                            correlationPeriod = -10;
-                            break;
-                        case R.id.button_20y:
-                            correlationPeriod = -20;
-                            break;
-                        default:
-                            break;
-                    }
+        mYearButtonGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> {
+            switch (checkedId) {
+                case R.id.button_1y:
+                    correlationPeriod = -1;
+                    break;
+                case R.id.button_3y:
+                    correlationPeriod = -3;
+                    break;
+                case R.id.button_5y:
+                    correlationPeriod = -5;
+                    break;
+                case R.id.button_10y:
+                    correlationPeriod = -10;
+                    break;
+                case R.id.button_20y:
+                    correlationPeriod = -20;
+                    break;
+                default:
+                    break;
+            }
         });
+    }
 
-        // OnClick for calculation button
-        mainView.findViewById(R.id.corr_calculation).setOnClickListener(view -> {
-            final String assetText1 = asset1.getText().toString().trim();
-            final String assetText2 = asset2.getText().toString().trim();
-            new AsyncTask<Void, Void, Double>() {
-                @Override
-                protected Double doInBackground(Void... voids) {
-                    // Calculate correlation
-                    return QuoteHelper.assetCorrelation(assetText1, assetText2,
-                            correlationPeriod);
-                }
+    @Background
+    void findCorrelation(String ticker1, String ticker2) {
+        displayCorrelation(QuoteHelper.assetCorrelation(ticker1, ticker2, correlationPeriod));
 
-                @Override
-                protected void onPostExecute(Double correlation) {
-                    super.onPostExecute(correlation);
-                    // Display correlation value
-                    ((TextView) mainView.findViewById(R.id.corr_result)).setText(correlation + "");
+    }
 
-                    // Fade in correlation result section
-                    AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-                    anim.setDuration(500);
-                    View result = mainView.findViewById(R.id.corr_section);
-                    result.setVisibility(View.VISIBLE);
-                    result.startAnimation(anim);
-                }
-            }.execute();
-        });
-        return mainView;
+    @UiThread
+    void displayCorrelation(double correlation) {
+        mResult.setText(correlation + "");
+
+        // Fade in correlation result section
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(500);
+        mResultSection.setVisibility(View.VISIBLE);
+        mResultSection.startAnimation(anim);
     }
 }
