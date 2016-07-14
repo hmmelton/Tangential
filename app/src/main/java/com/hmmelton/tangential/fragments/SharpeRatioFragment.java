@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EFragment;
 public class SharpeRatioFragment extends Fragment {
 
     @Click(R.id.fab) void onFabClick() {
-        AddAssetDialog addAsset = new AddAssetDialog();
+        AddAssetDialog addAsset = new AddAssetDialog_();
         addAsset.show(getActivity().getFragmentManager(), "AddAsset");
     }
 

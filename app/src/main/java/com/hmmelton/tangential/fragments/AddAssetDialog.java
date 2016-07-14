@@ -1,48 +1,43 @@
 package com.hmmelton.tangential.fragments;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.text.InputFilter;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hmmelton.tangential.R;
 import com.hmmelton.tangential.utils.QuoteHelper;
 
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.StringRes;
 
 /**
  * Created by harrisonmelton on 7/11/16.
  * This is a DialogFragment that allows the user to add a new stock quote to the
  */
+@EFragment(R.layout.add_asset_dialog)
 public class AddAssetDialog extends DialogFragment {
 
-    @BindView(R.id.asset_input) EditText mInput;
-    @BindString(R.string.invalid_ticker) String invalidTicker;
+    @ViewById(R.id.asset_input) EditText mInput;
+    @StringRes(R.string.invalid_ticker) String invalidTicker;
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View dialog = getActivity()
-                .getLayoutInflater()
-                .inflate(R.layout.add_asset_dialog, null, false);
+    @Click(R.id.add_asset_button)
+    void onAddAssetClick() {
+        checkIsValidTicker(mInput.getText().toString().trim());
+    }
 
-        ButterKnife.bind(this, dialog);
-
+    @AfterViews
+    void buildDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         mInput.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
-        dialog.findViewById(R.id.add_asset_button).setOnClickListener(view ->
-            checkIsValidTicker(mInput.getText().toString().trim()));
-
-        builder.setView(dialog);
-        return builder.create();
+        builder.setView(getView());
     }
 
     /**
