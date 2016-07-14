@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "680611163052",
+    "firebase_url": "https://tangential-893d0.firebaseio.com",
+    "project_id": "tangential-893d0",
+    "storage_bucket": "tangential-893d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680611163052:android:a6fc869cca3e7824",
+        "android_client_info": {
+          "package_name": "com.hmmelton.tangential"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680611163052-76njnrkv2dqg1fd5m9cse8hl2jthheo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsM2XhPNSbNqK4bd59ng3m52vDNKYx7ds"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

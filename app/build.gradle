@@ -25,6 +25,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 dependencies {
@@ -44,3 +50,5 @@ apt {
         androidManifestFile variant.outputs[0]?.processResources?.manifestFile
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
