@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EApplication;
 @EApplication
 public class TangentialApplication extends Application {
 
-    private Firebase mRootRef;
+    private static Firebase mRootRef;
 
     @Override
     public void onCreate() {
@@ -21,5 +21,13 @@ public class TangentialApplication extends Application {
         Firebase.setAndroidContext(this);
 
         mRootRef = new Firebase("https://tangential-893d0.firebaseio.com/");
+    }
+
+    /**
+     * This method returns the global Firebase instance.
+     * @return global Firebase instance
+     */
+    public static Firebase getFirebase() {
+        return mRootRef;
     }
 }
