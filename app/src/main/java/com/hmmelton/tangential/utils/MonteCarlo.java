@@ -2,7 +2,6 @@ package com.hmmelton.tangential.utils;
 
 import com.hmmelton.tangential.models.AnalyzedQuote;
 
-import org.androidannotations.annotations.EBean;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
@@ -16,7 +15,6 @@ import yahoofinance.histquotes.HistoricalQuote;
  * Created by harrisonmelton on 7/14/16.
  * This is a class for handling Monte Carlo simulations.
  */
-@EBean
 public class MonteCarlo {
 
     String quote;
@@ -30,6 +28,7 @@ public class MonteCarlo {
     public MonteCarlo(String quote, int days) {
         this.quote = quote;
         this.days = days;
+        MonteCarlo mc = new MonteCarlo("BCS", 250);
     }
 
     /**

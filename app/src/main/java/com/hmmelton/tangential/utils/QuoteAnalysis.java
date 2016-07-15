@@ -7,11 +7,13 @@ import com.hmmelton.tangential.models.StyledQuote;
 
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.List;
 
+import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
@@ -26,11 +28,11 @@ public class QuoteAnalysis {
 
     /**
      * This method returns the most recent asset quote.
-     * @param quote
-     * @return
+     * @param quote quote of asset to be queried.
+     * @return asset's most recent trading price
      */
-    public static String getQuote(String quote) {
-        String value;
+    public static double getQuote(String quote) {
+        double value;
         // Get historical quotes
         List<HistoricalQuote> quotes = getQuotes(quote, Calendar.YEAR, -1);
         // Format to have 2 decimal places
@@ -38,10 +40,22 @@ public class QuoteAnalysis {
             BigDecimal bd = quotes.get(0)
                     .getAdjClose()
                     .setScale(2, RoundingMode.CEILING);
-            value = bd.toString();
+            value = bd.doubleValue();
             return value;
         }
-        return "error";
+        return -1;
+    }
+
+    public static double getLiveQuote(String quote) {
+        Log.e(TAG, "getting quote...");
+        try {
+            Stock stock = YahooFinance.get(quote);
+            Log.e(TAG, "Price: " + stock.getQuote(true).getPrice());
+            return stock.getQuote(true).getPrice().doubleValue();
+        } catch (IOException e) {
+            Log.e(TAG, "error!!");
+            return -1;
+        }
     }
 
     /**

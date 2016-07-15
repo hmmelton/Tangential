@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,10 @@ import org.androidannotations.annotations.res.StringRes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity
@@ -44,6 +49,9 @@ public class MainActivity extends AppCompatActivity
 
     // List of display fields for index values
     private List<TextView> indexes = new ArrayList<>();
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private ScheduledFuture<?> checkerHandler;
 
     @SuppressWarnings("unused")
     private final String TAG = getClass().getSimpleName();
@@ -67,6 +75,8 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
         setIndexPrices();
     }
 
@@ -76,6 +86,15 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.main_fragment_holder, HomeFragment_.newInstance())
                 .commit();
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // End checking of index prices
+        checkerHandler.cancel(true);
     }
 
     @Override
@@ -167,13 +186,32 @@ public class MainActivity extends AppCompatActivity
         indexes.add((TextView) headerLayout.findViewById(R.id.index_2));
         indexes.add((TextView) headerLayout.findViewById(R.id.index_3));
 
-        for (int i = 0; i < indexes.size(); i++) {
-            displayStyledQuote(QuoteAnalysis.getChangeStyledQuote(indexTickers[i], 1), i);
-        }
+        // Create runnable for displaying quotes
+        final double[] lastPrice = {-1};
+        final Runnable checker = () -> {
+            for (int i = 0; i < indexes.size(); i++) {
+                StyledQuote newQuote;
+                if (lastPrice[0] == -1) {
+                    // First time running
+                    newQuote = QuoteAnalysis.getChangeStyledQuote(indexTickers[i], 1);
+                    lastPrice[0] = newQuote.getValue();
+                } else {
+                    // Find new price, and update
+                    double newPrice = QuoteAnalysis.getLiveQuote(indexTickers[i]);
+                    newQuote = new StyledQuote(newPrice,
+                            (newPrice > lastPrice[0]) ? R.color.gain : R.color.loss);
+                    lastPrice[0] = newPrice;
+                }
+                displayStyledQuote(newQuote, i);
+            }
+        };
+        // Check prices every 5 seconds
+        checkerHandler = scheduler.scheduleAtFixedRate(checker, 0, 5, TimeUnit.SECONDS);
     }
 
     @UiThread
     void displayStyledQuote(StyledQuote quote, int index) {
+        Log.e(TAG, "here! " + index + " " + quote.getValue());
         if (quote != null) {
             indexes.get(index).setText(quote.getValue() + "");
             indexes.get(index).setTextColor(getResources().getColor(quote.getColor()));

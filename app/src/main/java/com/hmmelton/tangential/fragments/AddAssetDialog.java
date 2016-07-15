@@ -48,7 +48,7 @@ public class AddAssetDialog extends DialogFragment {
         new AsyncTask<String, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(String... strings) {
-                return QuoteAnalysis.getQuote(strings[0]).equals("error");
+                return QuoteAnalysis.getQuote(strings[0]) == -1;
             }
 
             @Override
