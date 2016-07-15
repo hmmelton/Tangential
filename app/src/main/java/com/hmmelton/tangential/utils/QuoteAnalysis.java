@@ -18,11 +18,11 @@ import yahoofinance.histquotes.Interval;
 
 /**
  * Created by harrisonmelton on 7/10/16.
- * This is a helper class for interacting with Yahoo Finance's API.
+ * This is a helper class for analyzing quotes.
  */
-public class QuoteHelper {
+public class QuoteAnalysis {
 
-    private static final String TAG = "QuoteHelper";
+    private static final String TAG = "QuoteAnalysis";
 
     /**
      * This method returns the most recent asset quote.
@@ -42,6 +42,28 @@ public class QuoteHelper {
             return value;
         }
         return "error";
+    }
+
+    /**
+     * this method returns a list of historical quotes for the given asset, over the given period
+     * type and period length.
+     * @param quote ticker symbol of asset
+     * @param period Calendar object period (YEAR, WEEK_OF_MONTH, etc.)
+     * @param periodLength -1 for 1 period in the past (YEAR, -1 would be 1 year in the past), etc.
+     * @return
+     */
+    public static List<HistoricalQuote> getQuotes(String quote, int period, int periodLength) {
+        try {
+            Calendar from = Calendar.getInstance(); // start date
+            Calendar to = Calendar.getInstance(); // end date today
+            // TODO: change this to 1 day previous
+            from.add(period, periodLength); // set start date to 1 year ago
+            return YahooFinance.get(quote).getHistory(from, to, Interval.DAILY);
+        } catch (Exception e) {
+            Log.e(TAG, "error!!! " + e.toString());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -84,28 +106,6 @@ public class QuoteHelper {
         double[] quotesArray2 = listToDoubleArray(quotes2);
 
         return new PearsonsCorrelation().correlation(quotesArray1, quotesArray2);
-    }
-
-    /**
-     * this method returns a list of historical quotes for the given asset, over the given period
-     * type and period length.
-     * @param quote ticker symbol of asset
-     * @param period Calendar object period (YEAR, WEEK_OF_MONTH, etc.)
-     * @param periodLength -1 for 1 period in the past (YEAR, -1 would be 1 year in the past), etc.
-     * @return
-     */
-    public static List<HistoricalQuote> getQuotes(String quote, int period, int periodLength) {
-        try {
-            Calendar from = Calendar.getInstance(); // start date
-            Calendar to = Calendar.getInstance(); // end date today
-            // TODO: change this to 1 day previous
-            from.add(period, periodLength); // set start date to 1 year ago
-            return YahooFinance.get(quote).getHistory(from, to, Interval.DAILY);
-        } catch (Exception e) {
-            Log.e(TAG, "error!!! " + e.toString());
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**

@@ -8,7 +8,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.hmmelton.tangential.R;
-import com.hmmelton.tangential.utils.QuoteHelper;
+import com.hmmelton.tangential.utils.QuoteAnalysis;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -83,7 +83,7 @@ public class CorrelationFragment extends Fragment {
 
     @Background
     void findCorrelation(String ticker1, String ticker2) {
-        displayCorrelation(QuoteHelper.assetCorrelation(ticker1, ticker2, correlationPeriod));
+        displayCorrelation(QuoteAnalysis.assetCorrelation(ticker1, ticker2, correlationPeriod));
 
     }
 

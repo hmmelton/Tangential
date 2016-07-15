@@ -16,7 +16,7 @@ import com.hmmelton.tangential.fragments.CorrelationFragment_;
 import com.hmmelton.tangential.fragments.HomeFragment_;
 import com.hmmelton.tangential.fragments.SharpeRatioFragment_;
 import com.hmmelton.tangential.models.StyledQuote;
-import com.hmmelton.tangential.utils.QuoteHelper;
+import com.hmmelton.tangential.utils.QuoteAnalysis;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity
         indexes.add((TextView) headerLayout.findViewById(R.id.index_3));
 
         for (int i = 0; i < indexes.size(); i++) {
-            displayStyledQuote(QuoteHelper.getChangeStyledQuote(indexTickers[i], 1), i);
+            displayStyledQuote(QuoteAnalysis.getChangeStyledQuote(indexTickers[i], 1), i);
         }
     }
 

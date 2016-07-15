@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hmmelton.tangential.R;
-import com.hmmelton.tangential.utils.QuoteHelper;
+import com.hmmelton.tangential.utils.QuoteAnalysis;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -48,7 +48,7 @@ public class AddAssetDialog extends DialogFragment {
         new AsyncTask<String, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(String... strings) {
-                return QuoteHelper.getQuote(strings[0]).equals("error");
+                return QuoteAnalysis.getQuote(strings[0]).equals("error");
             }
 
             @Override
