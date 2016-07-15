@@ -67,6 +67,16 @@ public class QuoteAnalysis {
     }
 
     /**
+     * This method is used to retrieve an asset's entire (or close enough) historical data.
+     * @param quote quote of asset whose history is being queried
+     * @return asset's historical quotes
+     */
+    public static List<HistoricalQuote> getAllQuotes(String quote) {
+        // 100 is set as the time frame, as this will cover most stocks
+        return getQuotes(quote, Calendar.YEAR, -100);
+    }
+
+    /**
      * This method checks whether or not an asset has increased in the period provided.
      * @param quote ticker of asset
      * @param daysAgo number of days over which period asset is being performance-reviewed
