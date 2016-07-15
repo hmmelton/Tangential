@@ -3,6 +3,7 @@ package com.hmmelton.tangential;
 import android.app.Application;
 
 import com.firebase.client.Firebase;
+import com.hmmelton.tangential.utils.LocalStorage;
 
 import org.androidannotations.annotations.EApplication;
 
@@ -19,6 +20,7 @@ public class TangentialApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Firebase.setAndroidContext(this);
+        LocalStorage.initialize(this);
 
         mRootRef = new Firebase("https://tangential-893d0.firebaseio.com/");
     }
