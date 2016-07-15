@@ -12,6 +12,9 @@
             android:id="@+id/nav_s_ratio"
             android:title="@string/s_ratio"/>
         <item
+            android:id="@+id/nav_var"
+            android:title="@string/value_at_risk"/>
+        <item
             android:id="@+id/nav_tangency"
             android:title="@string/tan_port"/>
         <item

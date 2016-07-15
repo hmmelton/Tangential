@@ -1,6 +1,7 @@
 package com.hmmelton.tangential;
 
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -115,24 +116,23 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment fragment = null;
+        String title = appName;
+
         switch (id) {
             case R.id.nav_home:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_holder, HomeFragment_.newInstance())
-                        .commit();
-                getSupportActionBar().setTitle(appName);
+                fragment = HomeFragment_.newInstance();
+                title = appName;
                 break;
             case R.id.nav_correlation:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_holder, CorrelationFragment_.newInstance())
-                        .commit();
-                getSupportActionBar().setTitle(correlation);
+                fragment = CorrelationFragment_.newInstance();
+                title = correlation;
                 break;
             case R.id.nav_s_ratio:
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_holder, SharpeRatioFragment_.newInstance())
-                        .commit();
-                getSupportActionBar().setTitle(sharpeRatio);
+                fragment = SharpeRatioFragment_.newInstance();
+                title = sharpeRatio;
+                break;
+            case R.id.nav_var:
                 break;
             case R.id.nav_tangency:
                 break;
@@ -140,6 +140,13 @@ public class MainActivity extends AppCompatActivity
                 break;
             default:
                 break;
+        }
+
+        if (fragment != null) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_holder, fragment)
+                    .commit();
+            getSupportActionBar().setTitle(title);
         }
 
         drawer.closeDrawer(GravityCompat.START);
