@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity
                 fragment = HomeFragment_.newInstance();
                 title = appName;
                 break;
+            case R.id.portfolios:
+                fragment =
             case R.id.nav_correlation:
                 fragment = CorrelationFragment_.newInstance();
                 title = correlation;
