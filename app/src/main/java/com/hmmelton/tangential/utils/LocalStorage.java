@@ -7,6 +7,10 @@ import com.google.gson.Gson;
 import com.hmmelton.tangential.models.AnalyzedQuote;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import yahoofinance.Stock;
 
 /**
  * Created by harrisonmelton on 7/15/16.
@@ -16,6 +20,7 @@ public class LocalStorage {
 
     private static final String PREFS_FILE = "com.hmmelton.tangential.local_storage";
     private static final String RECENTLY_ANALYZED_KEY = "recently_analyzed";
+    private static final String PORTFOLIOS_KEY = "portfolios";
     private static SharedPreferences prefs;
 
     /**
@@ -45,10 +50,44 @@ public class LocalStorage {
      * This method retrieves recently analyzed quotes from storage.
      * @return ArrayList of recently analyzed quotes
      */
+    @SuppressWarnings("unchecked")
     public static ArrayList<AnalyzedQuote> getAnalyzedQuotes() {
         // Get recently analyzed quotes from storage
         String recentString = prefs.getString(RECENTLY_ANALYZED_KEY, null);
         // Convert JSON string to ArrayList
-        return new Gson().fromJson(recentString, ArrayList.class);
+        if (recentString != null)
+            return new Gson().fromJson(recentString, ArrayList.class);
+        else
+            return new ArrayList<>();
+    }
+
+    /**
+     * This method saves a new portfolio to local storage
+     * @param portfolioName name of new portfolio
+     * @param stocks stocks in new portfolio
+     */
+    public static void savePortfolios(String portfolioName, List<Stock> stocks) {
+        // Get portfolios from storage
+        HashMap<String, List<Stock>> portfolios = getPortfolios();
+        portfolios.put(portfolioName, stocks);
+        // Save changes to local storage
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(PORTFOLIOS_KEY, new Gson().toJson(portfolios));
+        editor.commit();
+    }
+
+    /**
+     * This is a method for returning the user's portfolios
+     * @return user's portfolios
+     */
+    @SuppressWarnings("unchecked")
+    public static HashMap<String, List<Stock>> getPortfolios() {
+        // Get portfolios from storage
+        String portfolios = prefs.getString(PORTFOLIOS_KEY, null);
+        // Convert JSON string to HashMap
+        if (portfolios != null)
+            return new Gson().fromJson(portfolios, HashMap.class);
+        else
+            return new HashMap<>();
     }
 }
