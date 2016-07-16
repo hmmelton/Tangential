@@ -11,6 +11,7 @@
 
     <!-- Strings for Navigation Drawer -->
     <string name="home">Home</string>
+    <string name="portfolios">Portfolios</string>
     <string name="correlation">Correlation</string>
     <string name="s_ratio">Sharpe Ratio</string>
     <string name="value_at_risk">Value at Risk</string>
