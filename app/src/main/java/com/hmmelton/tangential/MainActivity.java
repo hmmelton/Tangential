@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     @StringRes String correlation;
     @StringRes (R.string.s_ratio) String sharpeRatio;
     @StringRes String error;
+    @StringRes String valueAtRisk;
 
     @ColorRes int white;
 
@@ -74,8 +74,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
-
 
         setIndexPrices();
     }
@@ -152,6 +150,7 @@ public class MainActivity extends AppCompatActivity
                 title = sharpeRatio;
                 break;
             case R.id.nav_var:
+                title = valueAtRisk;
                 break;
             case R.id.nav_tangency:
                 break;
@@ -211,7 +210,6 @@ public class MainActivity extends AppCompatActivity
 
     @UiThread
     void displayStyledQuote(StyledQuote quote, int index) {
-        Log.e(TAG, "here! " + index + " " + quote.getValue());
         if (quote != null) {
             indexes.get(index).setText(quote.getValue() + "");
             indexes.get(index).setTextColor(getResources().getColor(quote.getColor()));

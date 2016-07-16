@@ -6,6 +6,9 @@
 
     <string name="action_settings">Settings</string>
 
+    <!-- Strings for HomeFragment -->
+    <string name="news_feed_error">Error retrieving news stories</string>
+
     <!-- Strings for Navigation Drawer -->
     <string name="home">Home</string>
     <string name="correlation">Correlation</string>
