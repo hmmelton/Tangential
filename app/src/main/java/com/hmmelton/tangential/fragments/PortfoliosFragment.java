@@ -12,7 +12,7 @@ import org.androidannotations.annotations.EFragment;
  * This is a fragment for user portfolios
  */
 @EFragment(R.layout.fragment_portfolios)
-public class PortfolioFragment extends Fragment{
+public class PortfoliosFragment extends Fragment{
 
     // OnClick for floating action button
     @Click(R.id.fab) void onFabClick() {
@@ -22,7 +22,7 @@ public class PortfolioFragment extends Fragment{
     /**
      * Default constructor
      */
-    public PortfolioFragment() {}
+    public PortfoliosFragment() {}
 
     public static PortfolioFragment_ newInstance() {
         return new PortfolioFragment_();

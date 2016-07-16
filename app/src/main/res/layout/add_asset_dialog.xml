@@ -6,7 +6,7 @@
 
     <TextView
         style="@style/CenterRowTextView"
-        android:padding="@dimen/standard_margin"
+        android:padding="@dimen/quarter_standard_margin"
         android:background="?attr/colorPrimary"
         android:text="@string/add_asset"
         android:textColor="@android:color/white"
@@ -26,6 +26,7 @@
     <TextView
         android:id="@+id/add_asset_button"
         style="@style/LargeButtonStyle"
+        android:padding="@dimen/quarter_standard_margin"
         android:text="@string/add"
         android:textSize="10pt"/>
 
