@@ -30,7 +30,6 @@ import butterknife.OnClick;
 public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.NewsStoriesHolder> {
 
     private List<RssItem> stories;
-    private final String SPACE = " ";
 
     /**
      * Generic constructor.
@@ -87,8 +86,11 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         String hourString = hour == 0 ? "12" : hour + "";
         String monthString = months[month];
 
-        return (day + SPACE + monthString + SPACE + year + ", " + SPACE +
-                hourString + ":" + minuteString + SPACE + dayHalf);
+        // Space string
+        String space = " ";
+
+        return (day + space + monthString + space + year + ", " + space +
+                hourString + ":" + minuteString + space + dayHalf);
     }
 
     public class NewsStoriesHolder extends RecyclerView.ViewHolder {
@@ -107,6 +109,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
             ButterKnife.bind(this, itemView);
         }
 
+        // OnClick for every item in the news story rows
         @OnClick({ R.id.news_time, R.id.news_title, R.id.news_subtitle, R.id.subscription_lock})
         void onClick() {
             // Prepare intent for launching

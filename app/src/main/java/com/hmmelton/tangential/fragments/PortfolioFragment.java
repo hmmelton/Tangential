@@ -16,8 +16,8 @@ import org.androidannotations.annotations.ViewById;
  * Created by harrisonmelton on 7/15/16.
  * This is a fragment for user portfolios
  */
-@EFragment(R.layout.fragment_portfolios)
-public class PortfoliosFragment extends Fragment {
+@EFragment(R.layout.fragment_portfolio)
+public class PortfolioFragment extends Fragment {
 
     @ViewById(R.id.portfolios_recycler_view)
     RecyclerView mRecyclerView;
@@ -30,10 +30,12 @@ public class PortfoliosFragment extends Fragment {
     /**
      * Default constructor
      */
-    public PortfoliosFragment() {}
+    public PortfolioFragment() {
 
-    public static PortfoliosFragment_ newInstance() {
-        return new PortfoliosFragment_();
+    }
+
+    public static PortfolioFragment_ newInstance() {
+        return new PortfolioFragment_();
     }
 
     // This method initializes the fragment's RecyclerView

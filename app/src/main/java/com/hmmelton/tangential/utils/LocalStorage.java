@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.hmmelton.tangential.models.AnalyzedQuote;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import yahoofinance.Stock;
@@ -63,13 +62,13 @@ public class LocalStorage {
 
     /**
      * This method saves a new portfolio to local storage
-     * @param portfolioName name of new portfolio
-     * @param stocks stocks in new portfolio
+     * @param stocks stocks in portfolio
      */
-    public static void savePortfolios(String portfolioName, List<Stock> stocks) {
+    public static void savePortfolioStocks(List<Stock> stocks) {
         // Get portfolios from storage
-        HashMap<String, List<Stock>> portfolios = getPortfolios();
-        portfolios.put(portfolioName, stocks);
+        List<Stock> portfolios = getPortfolioStocks();
+        portfolios.clear();
+        portfolios.addAll(stocks);
         // Save changes to local storage
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PORTFOLIOS_KEY, new Gson().toJson(portfolios));
@@ -81,13 +80,13 @@ public class LocalStorage {
      * @return user's portfolios
      */
     @SuppressWarnings("unchecked")
-    public static HashMap<String, List<Stock>> getPortfolios() {
+    public static List<Stock> getPortfolioStocks() {
         // Get portfolios from storage
         String portfolios = prefs.getString(PORTFOLIOS_KEY, null);
         // Convert JSON string to HashMap
         if (portfolios != null)
-            return new Gson().fromJson(portfolios, HashMap.class);
+            return new Gson().fromJson(portfolios, List.class);
         else
-            return new HashMap<>();
+            return new ArrayList<>();
     }
 }

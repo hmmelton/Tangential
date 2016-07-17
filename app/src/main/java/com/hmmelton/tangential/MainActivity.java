@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.hmmelton.tangential.fragments.CorrelationFragment_;
 import com.hmmelton.tangential.fragments.HomeFragment_;
-import com.hmmelton.tangential.fragments.PortfoliosFragment_;
+import com.hmmelton.tangential.fragments.PortfolioFragment_;
 import com.hmmelton.tangential.fragments.SharpeRatioFragment_;
 import com.hmmelton.tangential.models.StyledQuote;
 import com.hmmelton.tangential.utils.QuoteAnalysis;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
 
     // String resources
     @StringRes String appName;
-    @StringRes String portfolios;
+    @StringRes String portfolio;
     @StringRes String correlation;
     @StringRes (R.string.s_ratio) String sharpeRatio;
     @StringRes String error;
@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity
                 title = appName;
                 break;
             case R.id.nav_portfolios:
-                fragment = PortfoliosFragment_.newInstance();
-                title = portfolios;
+                fragment = PortfolioFragment_.newInstance();
+                title = portfolio;
                 break;
             case R.id.nav_correlation:
                 fragment = CorrelationFragment_.newInstance();
@@ -175,10 +175,6 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public static void changeFragment() {
-
     }
 
     /**
