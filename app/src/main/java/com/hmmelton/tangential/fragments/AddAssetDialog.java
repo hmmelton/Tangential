@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.os.AsyncTask;
 import android.text.InputFilter;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class AddAssetDialog extends DialogFragment {
 
     @AfterViews
     void buildDialog() {
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         mInput.setFilters(new InputFilter[]{new InputFilter.AllCaps()});

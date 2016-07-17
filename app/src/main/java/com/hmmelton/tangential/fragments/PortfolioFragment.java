@@ -24,7 +24,8 @@ public class PortfolioFragment extends Fragment {
 
     // OnClick for floating action button
     @Click(R.id.fab) void onFabClick() {
-
+        AddAssetDialog addAsset = new AddAssetDialog_();
+        addAsset.show(getActivity().getFragmentManager(), "AddAsset");
     }
 
     /**
