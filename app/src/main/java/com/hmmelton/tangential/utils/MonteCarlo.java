@@ -1,5 +1,6 @@
 package com.hmmelton.tangential.utils;
 
+import com.hmmelton.tangential.TangentialApplication_;
 import com.hmmelton.tangential.models.AnalyzedQuote;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
@@ -126,7 +127,14 @@ public class MonteCarlo {
         double vals95Mean = stats95.getMean();
         double vals99Mean = stats99.getMean();
 
-        return new AnalyzedQuote(quote, valsMean, vals95Mean, vals99Mean, -1);
+        double riskFreeRate = TangentialApplication_.getRiskFreeRate();
+
+        AnalyzedQuote newQuote =  new AnalyzedQuote(quote, valsMean, vals95Mean, vals99Mean,
+                -1, (valsMean - riskFreeRate) / stdDev);
+
+        // Save newly analyzed quote to local storage
+        LocalStorage.saveAnalyzedQuote(newQuote);
+        return newQuote;
     }
 
 }

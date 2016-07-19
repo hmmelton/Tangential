@@ -41,6 +41,10 @@
     <string name="ticker_hint">Type ticker here</string>
     <string name="add">ADD</string>
     <string name="invalid_ticker">Unable to find quote for that asset</string>
+    
+    <!-- Strings for PortfolioFragment -->
+    <string name="removed_asset" formatted="false">Removed asset %s</string>
+    <string name="undo">Undo</string>
 
     <string-array name="us_indexes">
         <item>^DJI</item>

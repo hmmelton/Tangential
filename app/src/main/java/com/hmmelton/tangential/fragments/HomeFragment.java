@@ -26,7 +26,7 @@ import java.util.List;
  * This class is a fragment for the home screen.
  */
 @EFragment(R.layout.fragment_home)
-public class HomeFragment extends android.support.v4.app.Fragment {
+public class HomeFragment extends android.app.Fragment {
 
     @SuppressWarnings("unused")
     private final String TAG = "HomeFragment";

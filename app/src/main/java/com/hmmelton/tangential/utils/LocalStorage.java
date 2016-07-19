@@ -9,8 +9,6 @@ import com.hmmelton.tangential.models.AnalyzedQuote;
 import java.util.ArrayList;
 import java.util.List;
 
-import yahoofinance.Stock;
-
 /**
  * Created by harrisonmelton on 7/15/16.
  * This is a helper class for local storage
@@ -46,6 +44,24 @@ public class LocalStorage {
     }
 
     /**
+     * This method retrieves an analyzed quote from local storage.
+     * @param ticker ticker of asset to be queried
+     * @return analyzed asset
+     */
+    public static AnalyzedQuote getAnalyzedQuote(String ticker) {
+        ArrayList<AnalyzedQuote> quotes = getAnalyzedQuotes();
+
+        // Check each quote for a matching ticker
+        for (AnalyzedQuote quote : quotes) {
+            if (quote.asset.equals(ticker))
+                return quote;
+        }
+
+        // If none match, analyze and return
+        return new MonteCarlo(ticker, 250).simulate();
+    }
+
+    /**
      * This method retrieves recently analyzed quotes from storage.
      * @return ArrayList of recently analyzed quotes
      */
@@ -64,9 +80,9 @@ public class LocalStorage {
      * This method saves a new portfolio to local storage
      * @param stocks stocks in portfolio
      */
-    public static void savePortfolioStocks(List<Stock> stocks) {
+    public static void savePortfolioStocks(List<String> stocks) {
         // Get portfolios from storage
-        List<Stock> portfolios = getPortfolioStocks();
+        List<String> portfolios = getPortfolioStocks();
         portfolios.clear();
         portfolios.addAll(stocks);
         // Save changes to local storage
@@ -76,11 +92,28 @@ public class LocalStorage {
     }
 
     /**
+     * This method saves an asset at a given position in the user's portfolio.
+     * @param position position at which to save the asset
+     * @param stock ticker of asset to add to porfolio
+     */
+    public static void savePortfolioStockAtPosition(int position, String stock) {
+        // Retrieve portfolio and add asset
+        List<String> stocks = getPortfolioStocks();
+        if (position < stocks.size())
+            stocks.add(position, stock);
+        else
+            stocks.add(stock);
+
+        // Save asset to local storage
+        savePortfolioStocks(stocks);
+    }
+
+    /**
      * This is a method for returning the user's portfolios
      * @return user's portfolios
      */
     @SuppressWarnings("unchecked")
-    public static List<Stock> getPortfolioStocks() {
+    public static List<String> getPortfolioStocks() {
         // Get portfolios from storage
         String portfolios = prefs.getString(PORTFOLIOS_KEY, null);
         // Convert JSON string to HashMap
@@ -88,5 +121,18 @@ public class LocalStorage {
             return new Gson().fromJson(portfolios, List.class);
         else
             return new ArrayList<>();
+    }
+
+    /**
+     * This method removes the asset from the given position of the portfolio.
+     * @param position position of portfolio at which to remove the asset
+     */
+    public static void removePortfolioStock(int position) {
+        // Retrieve current portfolio and remove stock at given position
+        List<String> portfolio = getPortfolioStocks();
+        portfolio.remove(position);
+
+        // Save new, smaller portfolio to local storage
+        savePortfolioStocks(portfolio);
     }
 }

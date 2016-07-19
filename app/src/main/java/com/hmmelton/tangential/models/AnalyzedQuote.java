@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 public class AnalyzedQuote {
 
     public String asset;
-    public double expectedReturn, var_95, var_99, cVar;
+    public double expectedReturn, var_95, var_99, cVar, sharpeRatio;
 
     /**
      * This is the basic constructor.
@@ -20,12 +20,13 @@ public class AnalyzedQuote {
      * @param cVar Conditional Value at Risk of asset
      */
     public AnalyzedQuote(String asset, double expectedReturn, double var_95, double var_99,
-                         double cVar) {
+                         double cVar, double sharpeRatio) {
         this.asset = asset;
         this.expectedReturn = expectedReturn;
         this.var_95 = var_95;
         this.var_99 = var_99;
         this.cVar = cVar;
+        this.sharpeRatio = sharpeRatio;
     }
 
     /**

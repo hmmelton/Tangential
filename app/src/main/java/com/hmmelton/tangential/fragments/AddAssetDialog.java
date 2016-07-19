@@ -2,6 +2,7 @@ package com.hmmelton.tangential.fragments;
 
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.InputFilter;
 import android.view.Window;
@@ -32,6 +33,8 @@ public class AddAssetDialog extends DialogFragment {
         checkIsValidTicker(mInput.getText().toString().trim());
     }
 
+    public static final String NEW_ASSET_KEY = "new_asset";
+
     @AfterViews
     void buildDialog() {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -58,10 +61,22 @@ public class AddAssetDialog extends DialogFragment {
                 if (aBoolean)
                     Toast.makeText(getActivity(), invalidTicker, Toast.LENGTH_LONG)
                             .show();
-                else
-                    AddAssetDialog.this.getDialog().dismiss();
+                else {
+                    sendResult(asset);
+                }
 
             }
         }.execute(asset);
+    }
+
+    /**
+     * This method sends the ticker of the newly added asset back to its target Fragment.
+     * @param asset ticker of asset to be sent back to Fragment
+     */
+    private void sendResult(String asset) {
+        Intent intent = new Intent();
+        intent.putExtra(NEW_ASSET_KEY, asset);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), 0, intent);
+        AddAssetDialog.this.getDialog().dismiss();
     }
 }

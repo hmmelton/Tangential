@@ -1,8 +1,8 @@
 package com.hmmelton.tangential;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
 
     @AfterViews
     void setUpFragmentManager() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_fragment_holder, HomeFragment_.newInstance())
                 .commit();
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
