@@ -1,17 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+    android:padding="@dimen/standard_margin">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/fab_margin"
-        android:tint="@android:color/white"
-        android:src="@android:drawable/ic_input_add" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/individual_asset_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/quarter_standard_margin"
+            android:textAlignment="center"
+            android:text="@string/individual_sr"/>
+
+        <LinearLayout
+            android:id="@+id/individual_asset_row"
+            android:layout_below="@id/individual_asset_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/half_standard_margin"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/individual_asset"
+                style="@style/OneWeight.Width"
+                android:padding="@dimen/quarter_standard_margin"
+                android:background="@android:color/white"
+                android:hint="@string/ticker_hint"
+                android:textColorHint="?attr/colorPrimary"
+                android:textColor="?attr/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/individual_asset_sr"
+                style="@style/OneWeight.Width"
+                android:layout_margin="@dimen/half_standard_margin"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/individual_sr_button"
+            android:layout_below="@id/individual_asset_row"
+            android:text="@string/calculate_sr"
+            android:clickable="true"
+            style="@style/LargeButtonStyle"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

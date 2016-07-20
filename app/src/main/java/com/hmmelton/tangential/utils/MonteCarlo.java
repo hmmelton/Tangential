@@ -7,8 +7,8 @@ import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.TreeSet;
 
 import yahoofinance.histquotes.HistoricalQuote;
 
@@ -29,14 +29,16 @@ public class MonteCarlo {
     public MonteCarlo(String quote, int days) {
         this.quote = quote;
         this.days = days;
-        MonteCarlo mc = new MonteCarlo("BCS", 250);
     }
 
     /**
      * This method runs a Monte Carlo simulation.
      */
     public AnalyzedQuote simulate() {
-        DescriptiveStatistics stats = collectData(QuoteAnalysis.getAllQuotes(quote));
+        List<HistoricalQuote> quotes = QuoteAnalysis.getAllQuotes(quote);
+        if (quotes == null)
+            return null;
+        DescriptiveStatistics stats = collectData(quotes);
 
         double mean = stats.getMean();
         double variance = stats.getVariance();
@@ -95,7 +97,7 @@ public class MonteCarlo {
     private AnalyzedQuote runSimulation(double lastPrice, double mean,
                                         double drift, double stdDev) {
         NormalDistribution distribution = new NormalDistribution(mean, stdDev);
-        TreeSet<Double> finalVals = new TreeSet<>();
+        ArrayList<Double> finalVals = new ArrayList<>();
         // Run 1,000 simulations
         for (int i = 0; i < 1000; i++) {
             double finalVal = lastPrice;
@@ -105,6 +107,8 @@ public class MonteCarlo {
             }
             finalVals.add(finalVal);
         }
+        // Sort returns in ascending order
+        Collections.sort(finalVals);
 
         // Convert list to arrays
         double[] valsArray = new double[finalVals.size()];
@@ -129,7 +133,7 @@ public class MonteCarlo {
 
         double riskFreeRate = TangentialApplication_.getRiskFreeRate();
 
-        AnalyzedQuote newQuote =  new AnalyzedQuote(quote, valsMean, vals95Mean, vals99Mean,
+        AnalyzedQuote newQuote = new AnalyzedQuote(quote, valsMean, vals95Mean, vals99Mean,
                 -1, (valsMean - riskFreeRate) / stdDev);
 
         // Save newly analyzed quote to local storage

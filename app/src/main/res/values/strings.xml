@@ -37,6 +37,11 @@
     <string name="correlation_colon">Correlation:</string>
 
     <!-- Strings for SharpeRatioFragment -->
+    <string name="individual_sr">Individual Asset\'s Sharpe Ratio</string>
+    <string name="calculate_sr">CALCULATE SHARPE RATIO</string>
+    <string name="quote_request_error">Error retrieving quote</string>
+
+    <!-- Strings for AddAssetDialog -->
     <string name="add_asset">ADD ASSET</string>
     <string name="ticker_hint">Type ticker here</string>
     <string name="add">ADD</string>

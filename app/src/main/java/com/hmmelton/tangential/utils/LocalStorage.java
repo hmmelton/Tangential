@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hmmelton.tangential.models.AnalyzedQuote;
 
 import java.util.ArrayList;
@@ -71,7 +72,8 @@ public class LocalStorage {
         String recentString = prefs.getString(RECENTLY_ANALYZED_KEY, null);
         // Convert JSON string to ArrayList
         if (recentString != null)
-            return new Gson().fromJson(recentString, ArrayList.class);
+            return new Gson().fromJson(recentString,
+                    new TypeToken<ArrayList<AnalyzedQuote>>() {}.getType());
         else
             return new ArrayList<>();
     }

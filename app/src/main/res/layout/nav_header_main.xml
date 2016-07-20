@@ -17,7 +17,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            style="@style/OneWeight">
+            style="@style/OneWeight.Width">
 
             <TextView
                 style="@style/CenterRowTextView"
@@ -31,7 +31,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            style="@style/OneWeight">
+            style="@style/OneWeight.Width">
 
             <TextView
                 style="@style/CenterRowTextView"
@@ -45,7 +45,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            style="@style/OneWeight">
+            style="@style/OneWeight.Width">
 
             <TextView
                 style="@style/CenterRowTextView"

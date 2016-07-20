@@ -11,11 +11,11 @@
         android:orientation="horizontal"
         android:weightSum="5">
 
-        <View style="@style/OneWeight"
+        <View style="@style/OneWeight.Width"
             android:layout_height="0dp"/>
 
         <LinearLayout
-            style="@style/OneWeight"
+            style="@style/OneWeight.Width"
             android:orientation="vertical">
 
             <TextView
@@ -28,11 +28,11 @@
 
         </LinearLayout>
 
-        <View style="@style/OneWeight"
+        <View style="@style/OneWeight.Width"
             android:layout_height="0dp"/>
 
         <LinearLayout
-            style="@style/OneWeight"
+            style="@style/OneWeight.Width"
             android:orientation="vertical">
 
             <TextView
@@ -64,27 +64,27 @@
         
         <RadioButton
             android:id="@+id/button_1y"
-            style="@style/OneWeight"
+            style="@style/OneWeight.Width"
             android:text="@string/one_year"/>
 
         <RadioButton
             android:id="@+id/button_3y"
-            style="@style/OneWeight"
+            style="@style/OneWeight.Width"
             android:text="@string/three_years"/>
 
         <RadioButton
             android:id="@+id/button_5y"
-            style="@style/OneWeight"
+            style="@style/OneWeight.Width"
             android:text="@string/five_years"/>
 
         <RadioButton
             android:id="@+id/button_10y"
-            style="@style/OneWeight"
+            style="@style/OneWeight.Width"
             android:text="@string/ten_years"/>
 
         <RadioButton
             android:id="@+id/button_20y"
-            style="@style/OneWeight"
+            style="@style/OneWeight.Width"
             android:text="@string/twenty_years"/>
         
     </RadioGroup>
