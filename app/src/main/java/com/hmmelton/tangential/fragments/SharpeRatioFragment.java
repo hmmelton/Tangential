@@ -66,7 +66,7 @@ public class SharpeRatioFragment extends Fragment {
 
     @UiThread
     public void displaySharpeRatio(AnalyzedQuote quote) {
-        DecimalFormat format = new DecimalFormat("##.0000");
+        DecimalFormat format = new DecimalFormat("#0.0000");
         Log.e(TAG, quote.expectedReturn + "");
         mAssetOutput.setText(format.format(quote.sharpeRatio) + "");
     }

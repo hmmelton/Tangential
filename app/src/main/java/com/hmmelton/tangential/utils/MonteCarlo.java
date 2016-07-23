@@ -1,5 +1,7 @@
 package com.hmmelton.tangential.utils;
 
+import android.util.Log;
+
 import com.hmmelton.tangential.TangentialApplication_;
 import com.hmmelton.tangential.models.AnalyzedQuote;
 
@@ -17,6 +19,9 @@ import yahoofinance.histquotes.HistoricalQuote;
  * This is a class for handling Monte Carlo simulations.
  */
 public class MonteCarlo {
+
+    @SuppressWarnings("unused")
+    private static final String TAG = "MonteCarlo";
 
     String quote;
     int days;
@@ -44,6 +49,9 @@ public class MonteCarlo {
         double variance = stats.getVariance();
         double standardDeviation = stats.getStandardDeviation();
         double drift = mean + (variance / 2);
+
+        Log.e(TAG, mean + "");
+        Log.e(TAG, standardDeviation + "");
 
         // Most recent asset quote
         double lastPrice = stats.getElement(0);
