@@ -17,6 +17,7 @@ import com.hmmelton.tangential.fragments.CorrelationFragment_;
 import com.hmmelton.tangential.fragments.HomeFragment_;
 import com.hmmelton.tangential.fragments.PortfolioFragment_;
 import com.hmmelton.tangential.fragments.SharpeRatioFragment_;
+import com.hmmelton.tangential.fragments.TangencyFragment_;
 import com.hmmelton.tangential.models.StyledQuote;
 import com.hmmelton.tangential.utils.QuoteAnalysis;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     @StringRes String portfolio;
     @StringRes String correlation;
     @StringRes (R.string.s_ratio) String sharpeRatio;
+    @StringRes String tanPort;
     @StringRes String error;
     @StringRes String valueAtRisk;
 
@@ -159,6 +161,8 @@ public class MainActivity extends AppCompatActivity
                 title = valueAtRisk;
                 break;
             case R.id.nav_tangency:
+                fragment = TangencyFragment_.newInstance();
+                title = tanPort;
                 break;
             case R.id.nav_min_var:
                 break;

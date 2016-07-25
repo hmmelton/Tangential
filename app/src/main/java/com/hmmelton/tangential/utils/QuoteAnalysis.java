@@ -48,13 +48,10 @@ public class QuoteAnalysis {
     }
 
     public static double getLiveQuote(String quote) {
-        Log.e(TAG, "getting quote...");
         try {
             Stock stock = YahooFinance.get(quote);
-            Log.e(TAG, "Price: " + stock.getQuote(true).getPrice());
             return stock.getQuote(true).getPrice().doubleValue();
         } catch (IOException e) {
-            Log.e(TAG, "error!!");
             return -1;
         }
     }
@@ -75,7 +72,6 @@ public class QuoteAnalysis {
             from.add(period, periodLength); // set start date to 1 year ago
             return YahooFinance.get(quote).getHistory(from, to, Interval.DAILY);
         } catch (Exception e) {
-            Log.e(TAG, "error!!! " + e.toString());
             e.printStackTrace();
             return null;
         }
@@ -130,7 +126,30 @@ public class QuoteAnalysis {
         double[] quotesArray1 = listToDoubleArray(quotes1);
         double[] quotesArray2 = listToDoubleArray(quotes2);
 
-        return new PearsonsCorrelation().correlation(quotesArray1, quotesArray2);
+        // Size of smallest array, to prevent error while calculating correlation
+        int size = Math.min(quotesArray1.length, quotesArray2.length);
+
+        double[] newArray1 =
+                (size == quotesArray1.length) ? quotesArray1 : shortenArray(quotesArray1, size);
+        double[] newArray2 =
+                (size == quotesArray2.length) ? quotesArray2 : shortenArray(quotesArray2, size);
+
+        return new PearsonsCorrelation().correlation(newArray1, newArray2);
+    }
+
+    /**
+     * This method takes an array and a given length, and returns that same array, shortened to the
+     * given size.
+     * @param array array to shorten
+     * @param size size to which to shorten the array
+     * @return newly shortened array
+     */
+    private static double[] shortenArray(double[] array, int size) {
+        double[] result = new double[size];
+        for (int i = 0; i < size; i++) {
+            result[i] = array[i];
+        }
+        return result;
     }
 
     /**

@@ -6,8 +6,6 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- Strings for HomeFragment -->
-    <string name="news_feed_error">Error retrieving news stories</string>
 
     <!-- Strings for Navigation Drawer -->
     <string name="home">Home</string>
@@ -23,6 +21,13 @@
     <string name="nasdaq">Nasdaq</string>
     <string name="sp_500">S&amp;P 500</string>
     <string name="error">error</string>
+
+    <!-- Strings for HomeFragment -->
+    <string name="news_feed_error">Error retrieving news stories</string>
+
+    <!-- Strings for PortfolioFragment -->
+    <string name="removed_asset" formatted="false">Removed asset %s</string>
+    <string name="undo">Undo</string>
 
     <!-- Strings for CorrelationFragment -->
     <string name="asset_1">Asset 1</string>
@@ -41,15 +46,18 @@
     <string name="calculate_sr">CALCULATE SHARPE RATIO</string>
     <string name="quote_request_error">Error retrieving quote</string>
 
+    <!-- Strings for TangencyFragment -->
+    <string name="e_return">E(r):</string>
+    <string name="e_sr">SR:</string>
+    <string name="std_dev">SD:</string>
+    <string name="ticker">Asset Ticker</string>
+    <string name="weight">Portfolio Weight</string>
+
     <!-- Strings for AddAssetDialog -->
     <string name="add_asset">ADD ASSET</string>
     <string name="ticker_hint">Type ticker here</string>
     <string name="add">ADD</string>
     <string name="invalid_ticker">Unable to find quote for that asset</string>
-    
-    <!-- Strings for PortfolioFragment -->
-    <string name="removed_asset" formatted="false">Removed asset %s</string>
-    <string name="undo">Undo</string>
 
     <string-array name="us_indexes">
         <item>^DJI</item>

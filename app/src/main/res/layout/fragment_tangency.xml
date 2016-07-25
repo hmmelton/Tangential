@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/quarter_standard_margin"
+        android:weightSum="6">
+
+        <TextView
+            style="@style/OneWeight.Width"
+            android:text="@string/e_return"/>
+
+        <TextView
+            android:id="@+id/tangent_e_return"
+            style="@style/OneWeight.Width"/>
+
+        <TextView
+            style="@style/OneWeight.Width"
+            android:padding="@dimen/quarter_standard_margin"
+            android:text="@string/e_sr"/>
+
+        <TextView
+            android:id="@+id/tangent_e_sr"
+            style="@style/OneWeight.Width"/>
+
+        <TextView
+            style="@style/OneWeight.Width"
+            android:padding="@dimen/quarter_standard_margin"
+            android:text="@string/std_dev"/>
+
+        <TextView
+            android:id="@+id/tangent_e_sd"
+            style="@style/OneWeight.Width"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorPrimary"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/quarter_standard_margin"
+        android:weightSum="2">
+
+        <TextView
+            style="@style/OneWeight.Width"
+            android:text="@string/ticker"/>
+
+        <TextView
+            style="@style/OneWeight.Width"
+            android:text="@string/weight"
+            android:textAlignment="textEnd"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tangent_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
