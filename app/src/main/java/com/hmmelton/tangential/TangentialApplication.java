@@ -15,7 +15,7 @@ import org.androidannotations.annotations.EApplication;
 public class TangentialApplication extends Application {
 
     private static Firebase mRootRef;
-    private static final double riskFreeRate = 0.003;
+    private static double riskFreeRate;
 
     @Override
     public void onCreate() {

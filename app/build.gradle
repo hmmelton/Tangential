@@ -3,6 +3,7 @@ apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 def AAVersion = '4.0.0'
+def Butterknife = '8.2.1'
 
 android {
     compileSdkVersion 24
@@ -49,14 +50,15 @@ dependencies {
 
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
+
+    compile "com.jakewharton:butterknife:$Butterknife"
+    apt "com.jakewharton:butterknife-compiler:$Butterknife"
     
     compile 'com.firebase:firebase-client-android:2.5.2+'
     compile 'com.google.code.gson:gson:2.7'
 
-    compile 'com.jakewharton:butterknife:8.2.1'
-    apt 'com.jakewharton:butterknife-compiler:8.2.1'
-
     compile 'com.jjoe64:graphview:4.1.0'
+    compile 'org.jblas:jblas:1.2.4'
 }
 
 apt {

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.hmmelton.tangential.R;
 import com.hmmelton.tangential.models.StyledQuote;
 
+import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
 import java.io.IOException;
@@ -133,6 +134,29 @@ public class QuoteAnalysis {
     }
 
     /**
+     * This method calculates the covariance between 2 assets.
+     * @param quote1 ticker of first asset
+     * @param quote2 ticker of second asset
+     * @param numYears number of years for covariance
+     * @return double representation of covariance value
+     */
+    public static double assetCovariance(String quote1, String quote2, int numYears) {
+        // Get historical quotes for both assets
+        List<HistoricalQuote> quotes1 = getQuotes(quote1, Calendar.YEAR, numYears);
+        List<HistoricalQuote> quotes2 = getQuotes(quote2, Calendar.YEAR, numYears);
+
+        // Check if there was an error retrieving historical quotes
+        if (quotes1 == null || quotes2 == null)
+            return -2;
+
+        // Convert Lists to arrays
+        double[] quotesArray1 = listToDoubleArray(quotes1);
+        double[] quotesArray2 = listToDoubleArray(quotes2);
+
+        return new Covariance().covariance(quotesArray1, quotesArray2);
+    }
+
+    /**
      * This method converts a List to an array of doubles
      * @param list List to be converted
      * @return array version of list
@@ -146,6 +170,33 @@ public class QuoteAnalysis {
                     .doubleValue();
         }
         return array;
+    }
+
+    /**
+     * This method finds the average yearly return over the lifetime of an asset.
+     * @param asset ticker symbol of asset to be analyzed
+     * @return asset's average yearly return
+     */
+    public static double getAverageReturn(String asset) {
+        Calendar from = Calendar.getInstance();
+        // Start from 100 years ago
+        from.add(Calendar.YEAR, -100);
+
+        try {
+            List<HistoricalQuote> history = YahooFinance.get(asset)
+                    .getHistory(from, Interval.MONTHLY);
+            double n = history.size() / 12.0;
+            double startValue = history.get(history.size() - 1).getAdjClose().doubleValue();
+            double endValue = history.get(0).getAdjClose().doubleValue();
+            // Find total return of asset
+            double tReturn = (endValue - startValue) / startValue;
+            // Take n-th root of total return to find average yearly return
+            return Math.pow(tReturn + 1, 1/n);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Must be less than -100 (cannot lose >100% value)
+            return -101;
+        }
     }
 
 }
